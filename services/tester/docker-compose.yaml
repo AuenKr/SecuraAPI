@@ -1,7 +1,7 @@
 services:
   tester-api:
     container_name: api-tester
-    build: .
+    build: 
     environment:
       DEBUG: "true"
       ZAP_BASE_URL: "http://zap:8080"

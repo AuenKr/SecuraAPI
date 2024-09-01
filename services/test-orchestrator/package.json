@@ -3,6 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
+    "build": "bun build src/index.ts --outdir=dist --target=node",
+    "start": "bun run build && bun dist/index.js",
     "dev": "bun src/index.ts --hot",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",

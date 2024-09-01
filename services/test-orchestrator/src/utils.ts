@@ -4,6 +4,7 @@ import type { UrlType } from "./types";
 import prisma from "./db";
 
 export async function testTaker(apiPath: UrlType) {
+  console.log("test stated for ", apiPath.url)
   const response = await fetch(TESTER_URL, {
     method: "POST",
     headers: {
@@ -13,9 +14,10 @@ export async function testTaker(apiPath: UrlType) {
       url: apiPath.url
     })
   })
-
+  console.log("test ended for ", apiPath.url)
   const data = await response.json();
-  const result: TestResult = data["result"];
+  const result: TestResult[] = data["result"];
+  console.log("Test result : ", result);
   return result;
 }
 

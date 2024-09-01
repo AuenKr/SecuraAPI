@@ -28,6 +28,7 @@ export async function ApiProgressState({ result }: { result: OpenApiFile[] }) {
     {
       name: "Completed",
       value: result.filter((each) => {
+        
         return each.progress === "FINISH";
       }).length,
     },

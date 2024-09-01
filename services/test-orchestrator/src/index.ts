@@ -9,6 +9,7 @@ dotenv.config();
 export const TESTER_URL = process.env.TESTER_URL || "http://localhost:5000"
 let count = 0;
 
+console.log("Started")
 async function main() {
   try {
     const allApiPath = await prisma.apiPath.findMany({
@@ -23,6 +24,7 @@ async function main() {
     if (!allApiPath)
       return;
 
+    console.log("Got all api Path")
     const allUrl: UrlType[] = allApiPath.map((each: any) => {
       let url = each.OpenApiFile.servers[0][0].url || null
       url += each.path;
@@ -31,18 +33,20 @@ async function main() {
         id: each.id
       };
     })
-
+    console.log("Extracted all path url")
     const filterUrl = allUrl.filter((each) => each);
 
+    console.log("Test taking start, no: ", filterUrl.length)
     for (let i = 0; i < filterUrl.length; i++) {
       const apiPath = filterUrl[i];
+      console.log("test of id : ", apiPath.id)
 
-      // @ts-ignore
-      const result: TestResult[] = await testTaker(apiPath)
-      if (!result.length) {
-        return;
+      const result = await testTaker(apiPath)
+      if (!result) {
+        continue;
       }
 
+      console.log("result ", result)
       const updateValue = await prisma.testResult.createMany({
         data: result.map((each: any) => {
           const parseData = {
@@ -65,6 +69,7 @@ async function main() {
         })
       })
 
+      console.log("saved test value in db")
       await prisma.apiPath.update(({
         where: {
           id: apiPath.id
@@ -73,7 +78,7 @@ async function main() {
           status: Progress.FINISH
         }
       }))
-
+      console.log("updated progress of that api endpoint")
       console.log(++count)
     }
 
@@ -84,6 +89,7 @@ async function main() {
 }
 
 main();
+
 setInterval(async () => {
   await main()
 }, 1000 * 60 * 60 * 1) // 1hr

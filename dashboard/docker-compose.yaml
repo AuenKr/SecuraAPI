@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: secura-api
+    env_file:
+      - path: .env
+        required: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app

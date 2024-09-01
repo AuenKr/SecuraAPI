@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.Orchestrator
+    container_name: test-orchestrator
+    env_file:
+      - path: .env
+        required: true

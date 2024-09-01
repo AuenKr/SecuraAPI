@@ -1,15 +1,72 @@
 services:
-  db:
-    image: postgres
+  dashboard:
+    container_name: secure-api-dashboard
     restart: unless-stopped
-    ports:
-      - "5432:5432"
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile.dashboard
     volumes:
-      - db-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: securaApi
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      - ./dashboard:/dashboard
+      - /dashboard/node_modules
+    ports:
+      - "6960:3000"
+    env_file:
+      - path: ./dashboard/.env
+        required: true
 
-volumes:
-  db-data:
+  tester:
+    container_name: secure-api-tester
+    restart: unless-stopped
+    build:
+      context: ./services/tester
+      dockerfile: Dockerfile.tester
+    volumes:
+      - ./services/tester:/tester
+      - /tester/node_modules
+    ports:
+      - "6965:3000"
+    env_file:
+      - path: ./services/tester/.env
+        required: true
+    depends_on:
+      zap:
+        condition: service_started
+
+  zap:
+    image: zaproxy/zap-stable
+    user: zap
+    ports:
+      - "8080:8080"
+    command:
+      [
+        "zap.sh",
+        "-daemon",
+        "-host",
+        "0.0.0.0",
+        "-port",
+        "8080",
+        "-config",
+        "api.disablekey=true",
+        "-config",
+        "api.addrs.addr.name=.*",
+        "-config",
+        "api.addrs.addr.regex=true",
+      ]
+    restart: unless-stopped
+
+  orchestrator:
+    build:
+      context: ./services/test-orchestrator
+      dockerfile: Dockerfile.Orchestrator
+    container_name: test-orchestrator
+    volumes:
+      - ./services/test-orchestrator:/orchestrator
+      - /orchestrator/node_modules
+    env_file:
+      - path: ./services/test-orchestrator/.env
+        required: true
+    depends_on:
+      tester:
+        condition: service_started
+      zap:
+        condition: service_started

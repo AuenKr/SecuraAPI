@@ -7,9 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "db:start": "npm run db:deploy && npm run db:client",
+    "db:deploy": "prisma migrate deploy",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "db:client": "prisma generate client"
+    "db:client": "prisma generate client",
+    "docker:dev": "npm run db:start && next dev",
+    "docker:build": "npm run db:start && next build",
+    "docker:start": "npm run db:start && next start"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
