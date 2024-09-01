@@ -24,7 +24,6 @@ async function getObjectURL(key: string) {
   try {
     const command = new GetObjectCommand({
       Bucket: 'demo-aws-s3-test',
-      // Bucket: 'static-book',
       Key: key,
     });
     const signedURL = await getSignedUrl(s3Client, command);
@@ -51,15 +50,24 @@ async function listObject() {
   });
 
   const result = await s3Client.send(command);
-  fs.writeFileSync('./listObject.json', JSON.stringify(result));
+  fs.writeFileSync('tempFile/listObject.json', JSON.stringify(result));
   return result;
 }
 async function init() {
   // console.log("presigned-url : ", await getObjectURL('openapiSpec/blog.yaml'))
   // console.log("presigned-url : ", await getObjectURL('upload/user-upload/image-1724590468108.jpeg'));
   // console.log('URL for uploading', await putObject(`image-${Date.now()}.jpeg`, `image/jpeg`))
+  const preSignedUrl = await putObject(`image-${Date.now()}.jpeg`, `image/jpeg`);
+  const result = await fetch(preSignedUrl, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "text/yaml"
+    },
+    body: "tempfile/blog.yaml"
+  })
   // await listObject();
-  // console.log('see ./listfile.json')
+  // console.log('see tempFile/listfile.json')
+  console.log(result)
 }
 
 init();

@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  profileImage String
+  openapiFile  OpenApiFile[]
+}
+
+model OpenApiFile {
+  id    String  @id @default(uuid())
+  name  String
+  url   String // key value in s3 bucket
+  email String?
+  User  User?   @relation(fields: [email], references: [email])
+
+  progress       Progress @default(QUEUE)
+  report         String?
+
+  totalEndpoint  Int      @default(0)
+  openapiVersion String?
+  title          String?
+  description    String?
+  servers        Json[]
+}
+
+model ApiPath {
+  id       String @id @default(uuid())
+  path     String
+  method   String
+  allOther Json
+}
+
+enum Progress {
+  QUEUE
+  START
+  PARSING
+  TESTING
+  FINISH
+}

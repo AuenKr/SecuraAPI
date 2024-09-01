@@ -1,7 +1,10 @@
-import { Button } from '@/components/ui/button';
-import { Features } from './feature';
-import { Working } from './working';
-import { Connect } from './connect';
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Features } from "./feature";
+import { Working } from "./working";
+import { Connect } from "./connect";
+import { signIn } from "next-auth/react";
 
 export function Landing() {
   return (
@@ -19,7 +22,7 @@ export function Landing() {
               </p>
             </div>
             <div className="space-x-4">
-              <Button>Get Started</Button>
+              <Button onClick={() => signIn()}>Get Started</Button>
               <Button variant="outline">Learn More</Button>
             </div>
           </div>

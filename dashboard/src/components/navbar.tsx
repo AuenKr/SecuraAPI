@@ -1,6 +1,7 @@
-import { Shield } from 'lucide-react';
-import Link from 'next/link';
-import { ModeToggle } from './toggle-mode';
+import { Shield } from "lucide-react";
+import Link from "next/link";
+import { ModeToggle } from "./toggle-mode";
+import LoginBtn from "./loginBtn";
 
 export function Navbar() {
   return (
@@ -23,12 +24,7 @@ export function Navbar() {
           >
             How It Works
           </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="#pricing"
-          >
-            Pricing
-          </Link>
+          <LoginBtn />
           <ModeToggle />
         </div>
       </nav>

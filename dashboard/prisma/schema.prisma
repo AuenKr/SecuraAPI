@@ -13,28 +13,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  profileImage String
+  createdAt    DateTime?     @default(now())
+  updatedAt    DateTime?     @updatedAt
+  openapiFile  OpenApiFile[]
+}
+
+model OpenApiFile {
+  id       String   @id @default(uuid())
+  name     String
+  url      String // key value in s3 bucket
+  email    String?
+  User     User?    @relation(fields: [email], references: [email])
+  progress Progress @default(QUEUE)
+  report   String?
+
+  totalEndpoint  Int     @default(0)
+  openapiVersion String?
+  title          String?
+  description    String?
+  servers        Json[]
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now()) @updatedAt
+  apiPath   ApiPath[]
+}
+
+model ApiPath {
+  id           String  @id @default(uuid())
+  path         String
+  method       String
+  summary      String?
+  description  String?
+  parameters   Json[]
+  requestBody  String?
+  responseBody Json[]
+  securityBody Json[]
+
+  OpenApiFile   OpenApiFile? @relation(fields: [openApiFileId], references: [id])
+  openApiFileId String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now()) @updatedAt
+}
+
+enum Progress {
+  QUEUE
+  START
+  PARSING
+  TESTING
+  FINISH
 }
