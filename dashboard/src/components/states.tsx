@@ -31,9 +31,15 @@ export async function ApiProgressState({ result }: { result: OpenApiFile[] }) {
         return each.progress === "FINISH";
       }).length,
     },
+    {
+      name: "Total Endpoints",
+      value: result.reduce((accumulator, each) => {
+        return accumulator + each.totalEndpoint;
+      }, 0),
+    },
   ];
   return (
-    <div className="w-full flex justify-between">
+    <div className="w-full flex justify-between m-3">
       {config.map((each) => {
         return (
           <Card key={each.name}>
