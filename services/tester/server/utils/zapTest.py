@@ -8,7 +8,7 @@ logging.basicConfig(filename='test_case.log', level=logging.INFO, format='%(asct
 
 # Initialize OWASP ZAP
 ZAP_BASE_URL = os.getenv('ZAP_BASE_URL', 'http://zap:8080')  # Use the Docker service name
-ZAP_DEPTH_SCAN = os.getenv('ZAP_DEPTH_SCAN', False)
+ZAP_DEPTH_SCAN = os.getenv('ZAP_DEPTH_SCAN', True)
 zap = ZAPv2(proxies={'http': ZAP_BASE_URL, 'https': ZAP_BASE_URL})
 
 def performZapScanUrl(url):
