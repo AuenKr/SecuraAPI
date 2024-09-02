@@ -7,11 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { Progress } from "@prisma/client";
+import Link from "next/link";
 
 export async function OpenApiPathTable() {
   const tableHead = [
     "fileName",
     "endpoint",
+    "status",
     "method",
     "summary",
     "description",
@@ -23,7 +26,6 @@ export async function OpenApiPathTable() {
 
   const result = await getOpenApiPaths();
   if (!result) return;
-
   return (
     <div className="overflow-auto">
       <Table className="min-w-full divide-y">
@@ -47,6 +49,18 @@ export async function OpenApiPathTable() {
               </TableCell>
               <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
                 {row.path}
+              </TableCell>
+              <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
+                {row.status === Progress.FINISH ? (
+                  <Link
+                    href={`/allapi/${row.id}`}
+                    className="bg-green-600 p-2 rounded hover:bg-green-700 "
+                  >
+                    {row.status}
+                  </Link>
+                ) : (
+                  <span>{row.status}</span>
+                )}
               </TableCell>
               <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
                 {row.method}

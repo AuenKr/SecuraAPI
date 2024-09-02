@@ -11,7 +11,6 @@ export default async function OpenApiFiles() {
 
   const result = await getOpenApiFile();
   if (!result) return;
-
   return (
     <main className="flex flex-col p-6 w-full">
       <div className="mb-6">
