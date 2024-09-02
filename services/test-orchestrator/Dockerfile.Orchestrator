@@ -19,4 +19,4 @@ RUN bun run db:client
 COPY . .
 
 # Start the Next.js app
-CMD ["bun", "run", "start"]
+CMD ["bun", "run", "docker:start"]

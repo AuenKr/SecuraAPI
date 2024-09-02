@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       if (!fs.existsSync(path)) {
         preSignedUrl = await getObjectURL(result.url);
       }
-      console.log("presigned url ", preSignedUrl || "NOno")
+      console.log("presigned url ", preSignedUrl || "None")
       const parsedResult = await downloadAndParseYaml(preSignedUrl, result.url);
 
       if (!result.openapiVersion) {
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
             id: id
           },
           data: {
-            progress: parsedResult.path ? "PARSING" : "FINISH",
+            progress: parsedResult.path.length ? "PARSING" : "FINISH",
             openapiVersion: parsedResult.openapiVersion,
             title: parsedResult.title,
             description: parsedResult.description,
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
             totalEndpoint: parsedResult.path.length
           }
         });
-        if (!parsedResult.path) {
+        if (!parsedResult.path.length) {
           return NextResponse.json({
             msg: "No enpoint present",
             preSignedUrl,

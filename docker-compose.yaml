@@ -1,21 +1,7 @@
 services:
-  dashboard:
-    container_name: secure-api-dashboard
-    restart: unless-stopped
-    build:
-      context: ./dashboard
-      dockerfile: Dockerfile.dashboard
-    volumes:
-      - ./dashboard:/dashboard
-      - /dashboard/node_modules
-    ports:
-      - "6960:3000"
-    env_file:
-      - path: ./dashboard/.env
-        required: true
 
   tester:
-    container_name: secure-api-tester
+    container_name: api-tester
     restart: unless-stopped
     build:
       context: ./services/tester
@@ -25,9 +11,13 @@ services:
       - /tester/node_modules
     ports:
       - "6965:3000"
+    environment:
+      - DEBUG=true
+      - ZAP_BASE_URL=http://zap:8080
+      - ZAP_DEPTH_SCAN=true
     env_file:
       - path: ./services/tester/.env
-        required: true
+        required: false
     depends_on:
       zap:
         condition: service_started
@@ -54,6 +44,23 @@ services:
       ]
     restart: unless-stopped
 
+  dashboard:
+    container_name: api-dashboard
+    restart: unless-stopped
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile.dashboard
+    volumes:
+      - ./dashboard:/dashboard
+      - /dashboard/node_modules
+    ports:
+      - "6960:3000"
+    environment:
+      - DATABASE_URL:postgres://postgres:password@localhost:5432/postgres
+    env_file:
+      - path: ./dashboard/.env
+        required: true
+
   orchestrator:
     build:
       context: ./services/test-orchestrator
@@ -62,9 +69,13 @@ services:
     volumes:
       - ./services/test-orchestrator:/orchestrator
       - /orchestrator/node_modules
+    environment:
+      - DATABASE_URL=postgres://postgres:password@localhost:5432/postgres
+      - TESTER_URL=http://tester:5000
+      - TIME=1 # 1 min
     env_file:
       - path: ./services/test-orchestrator/.env
-        required: true
+        required: false
     depends_on:
       tester:
         condition: service_started
