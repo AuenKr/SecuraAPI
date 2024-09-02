@@ -25,4 +25,4 @@ RUN bun run build
 EXPOSE 3000
 
 # Start the Next.js app
-CMD ["bun", "run", "docker:start"]
+CMD ["bun", "run", "docker:start", "--port 3000"]

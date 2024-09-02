@@ -14,7 +14,6 @@ export default function Uploader() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setFile(event.target.files[0]);
-      console.log("file updated ", event.target.files[0]);
     }
   };
 
@@ -30,19 +29,20 @@ export default function Uploader() {
         });
       }
 
-      console.log("fetching url");
+      // Get presigned url
       const response = await fetch("/api/openapi", {
         method: "POST",
         body: JSON.stringify({ fileName: file.name }),
       });
+
       if (!response.ok)
         return toast({
           title: "Error",
           description: "Internal Server Error",
           variant: "destructive",
         });
+
       const result = await response.json();
-      console.log(result.preSignedUrl);
 
       const upload = await fetch(result.preSignedUrl, {
         method: "PUT",
@@ -52,8 +52,24 @@ export default function Uploader() {
         body: file,
       });
 
-      console.log("upload ", upload);
       if (upload.ok) {
+        const response = await fetch("/api/openapi", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: result.name,
+            fileLocation: result.fileLocation,
+          }),
+        });
+        if (!response.ok) {
+          return toast({
+            title: "Error",
+            description: "Error while saving file",
+            variant: "destructive",
+          });
+        }
         return toast({
           title: "Success",
           description:
@@ -61,8 +77,6 @@ export default function Uploader() {
         });
       }
       throw new Error("Fail to upload file after getting pre-signed url");
-      // Here you would typically send the file and backendUrl to your server
-      // For this example, we'll simulate an API call with a timeout
     } catch (err) {
       console.log("error ", err);
       toast({

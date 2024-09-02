@@ -26,7 +26,7 @@ model User {
 model OpenApiFile {
   id       String   @id @default(uuid())
   name     String
-  url      String // key value in s3 bucket
+  url      String   @unique // key value in s3 bucket
   email    String?
   User     User?    @relation(fields: [email], references: [email])
   progress Progress @default(QUEUE)
