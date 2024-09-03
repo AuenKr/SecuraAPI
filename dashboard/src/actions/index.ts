@@ -15,16 +15,25 @@ export async function getOpenApiFile() {
   return result;
 }
 
-export async function getOpenApiPaths() {
+export async function getOpenApiPaths(id = "") {
   const session = await getServerSession();
   if (!session?.user)
     return null;
 
+  let searchQuery;
+  if (!id)
+    searchQuery = {
+      email: session.user.email,
+    }
+  else
+    searchQuery = {
+      id
+    }
+
+  console.log("ID : ", id)
   const result = await prisma.apiPath.findMany({
     where: {
-      OpenApiFile: {
-        email: session.user.email
-      }
+      OpenApiFile: searchQuery
     },
     include: {
       OpenApiFile: {

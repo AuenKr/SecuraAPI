@@ -6,8 +6,9 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import { OpenApiFile } from "@prisma/client";
+import { OpenApiFile, Progress } from "@prisma/client";
 import { RefreshBtn } from "../refreshBtn";
+import { ReportBtn } from "../report/reportBtn";
 
 export function OpenApiFileTable({ result }: { result: OpenApiFile[] }) {
   const tableHead = [
@@ -34,7 +35,15 @@ export function OpenApiFileTable({ result }: { result: OpenApiFile[] }) {
             <TableCell>
               {row.totalEndpoint === 0 ? "--" : row.totalEndpoint}
             </TableCell>
-            <TableCell>{row.report ? row.report : "--"}</TableCell>
+            <TableCell>
+              {row.progress === Progress.FINISH ? (
+                <ReportBtn id={row.id} link={`openapi/${row.id}`}>
+                  <span>See Report</span>
+                </ReportBtn>
+              ) : (
+                <span>--</span>
+              )}
+            </TableCell>
             <TableCell>{<RefreshBtn id={row.id} />}</TableCell>
           </TableRow>
         ))}

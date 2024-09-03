@@ -9,8 +9,9 @@ import {
 } from "../ui/table";
 import { Progress } from "@prisma/client";
 import Link from "next/link";
+import { ReportBtn } from "../report/reportBtn";
 
-export async function OpenApiPathTable() {
+export async function OpenApiPathTable({ fileId }: { fileId?: string }) {
   const tableHead = [
     "fileName",
     "endpoint",
@@ -24,7 +25,7 @@ export async function OpenApiPathTable() {
     "response Body",
   ];
 
-  const result = await getOpenApiPaths();
+  const result = await getOpenApiPaths(fileId);
   if (!result) return;
   return (
     <div className="overflow-auto">
@@ -52,12 +53,9 @@ export async function OpenApiPathTable() {
               </TableCell>
               <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
                 {row.status === Progress.FINISH ? (
-                  <Link
-                    href={`/allapi/${row.id}`}
-                    className="bg-green-600 p-2 rounded hover:bg-green-700 "
-                  >
+                  <ReportBtn id={row.id} link={`/all/${row.id}`}>
                     {row.status}
-                  </Link>
+                  </ReportBtn>
                 ) : (
                   <span>{row.status}</span>
                 )}

@@ -1,18 +1,33 @@
-import { ReportContent } from "@/components/report/reportCard";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getOpenApiFile } from "@/actions";
+import { OpenApiPathTable } from "@/components/openapi/allApiPath";
+import { ApiProgressState } from "@/components/states";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default async function Report({
+export default async function OpenApiFiles({
   params,
 }: {
-  params: { fieldId: string };
+  params: {
+    fileId: string;
+  };
 }) {
-  console.log(params);
+  const session = await getServerSession();
+  if (!session?.user) redirect("/");
+  const result = await getOpenApiFile();
+  if (!result) return;
   return (
-    <Card className="w-full max-w-4xl">
-      <CardHeader>
-        <CardTitle>API Test Report</CardTitle>
-      </CardHeader>
-      <ReportContent />
-    </Card>
+    <main className="flex flex-col p-6 w-full">
+      <div className="mb-6">
+        <header className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-semibold">API Collection</h1>
+        </header>
+        <div className="flex w-10/12">
+          <ApiProgressState result={result} />
+        </div>
+      </div>
+      <div className="max-w-[90%]">
+        <OpenApiPathTable fileId={params.fileId} />
+      </div>
+    </main>
   );
 }
