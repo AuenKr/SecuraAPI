@@ -1,22 +1,12 @@
 # SecuraAPI
 
-Secure Your APIs with AI-Powered Testing
-
-SecuraAPI uses advanced LLMs to automatically generate and run OWASP-compliant test cases for your API endpoints.
+SecuraAPI uses advanced Testing Tools to automatically test OWASP-compliant for your API endpoints.
 
 ## Key Features
 
-- **AI-Powered Test Generation**: Leverage LLMs to create comprehensive test cases automatically.
-- **Based Existing Technology**: Use tools like ZAP to provide further security.
-- **Automated Execution**: Run tests automatically and get detailed reports on vulnerabilities.
+- **Automated Testing**: Use testing tools like ZAP to test the API endpoint.
+- **Test Report Generation**: Run tests automatically and get detailed reports on vulnerabilities.
 - **OWASP Compliance**: Ensure your APIs are protected against common OWASP vulnerabilities.
-
-## How It Works
-
-1. **Connect Your API**: Integrate SecuraAPI with your existing API infrastructure.
-2. **AI Generates Tests**: Our LLM creates tailored test cases based on your API structure.
-3. **Automated Testing**: Tests are executed automatically, and ZAP analysis simulates various attack scenarios.
-4. **Detailed Reporting**: Receive comprehensive reports on vulnerabilities and recommended fixes.
 
 ## Local Setup
 
@@ -36,8 +26,19 @@ SecuraAPI uses advanced LLMs to automatically generate and run OWASP-compliant t
    - dashboard/Dockerfile.dashboard
    - services/test-orchestrator/Dockerfile.Orchestrator
 
-## How testing Working
+## How It Works
+
+1. **Connect Your API**: Upload the OpenAPI specification file of API.
+2. **API Endpoint Detection**: After uploading, each endpoint detail is parsed.
+3. **Automated Testing**: Each endpoint is tested on tools like ZAP automatically.
+4. **Automated Test Report**: After each endpoint is tested, the report can be seen from the dashboard.
+
+
+## How Testing Working Now
 <img src="https://github.com/user-attachments/assets/90ebde7a-1c15-4b34-a481-612cb0543b52" width="500" height="auto">
 
-
-
+## Future work 
+1. Change the testing architecture to a distributed testing system.
+   ![image](https://github.com/user-attachments/assets/abc66416-1b9b-432c-aad7-0c37561e2d4c)
+2. Testing Nodes can join the network and test the endpoint.
+   This will significantly improve the testing speed.
