@@ -21,7 +21,7 @@ export default async function OpenApiFiles() {
         </div>
       </div>
       <div className="max-w-screen-xl">
-        <ScrollArea className="h-[60vh] w-full rounded-md border p-4">
+        <ScrollArea className="max-h-[60vh] w-full rounded-md border p-4">
           <OpenApiPathTable />
         </ScrollArea>
       </div>

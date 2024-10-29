@@ -1,0 +1,97 @@
+generator client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  password     String?
+  profileImage String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  openapiFile  OpenApiFile[]
+}
+
+model OpenApiFile {
+  id       String   @id @default(uuid())
+  name     String
+  url      String   @unique // key value in s3 bucket
+  email    String?
+  User     User?    @relation(fields: [email], references: [email])
+  progress Progress @default(QUEUE)
+  report   String?
+
+  totalEndpoint  Int     @default(0)
+  openapiVersion String?
+  title          String?
+  description    String?
+  servers        Json[]
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now()) @updatedAt
+  apiPath   ApiPath[]
+}
+
+model ApiPath {
+  id           String  @id @default(uuid())
+  path         String
+  method       String
+  summary      String?
+  description  String?
+  parameters   Json[]
+  requestBody  String?
+  responseBody Json[]
+  securityBody Json[]
+
+  OpenApiFile   OpenApiFile? @relation(fields: [openApiFileId], references: [id])
+  openApiFileId String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now()) @updatedAt
+
+  status     String       @default("TESTING")
+  testResult TestResult[]
+}
+
+model TestResult {
+  id String @id @default(uuid())
+
+  alert       String?
+  attack      String?
+  confidence  String?
+  risk        String?
+  description String?
+  evidence    String?
+  method      String?
+  name        String?
+  other       String?
+  param       String?
+  reference   String?
+  solution    String?
+  tags        Json?
+
+  apiPathId String
+  ApiPath   ApiPath @relation(fields: [apiPathId], references: [id])
+}
+
+model OTPVerify {
+  id        String   @id @default(uuid())
+  email     String
+  otp       Int
+  createdAt DateTime @default(now())
+}
+
+enum Progress {
+  QUEUE
+  START
+  PARSING
+  TESTING
+  FINISH
+}
