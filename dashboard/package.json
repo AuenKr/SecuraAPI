@@ -2,6 +2,9 @@
   "name": "dashboard",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -14,7 +17,8 @@
     "db:client": "prisma generate client",
     "docker:dev": "npm run db:start && next dev",
     "docker:build": "npm run db:start && next build",
-    "docker:start": "npm run db:start && next start"
+    "docker:start": "npm run db:start && next start",
+    "seed": "npx prisma run db seed"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
@@ -23,20 +27,26 @@
     "@prisma/client": "^5.19.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-scroll-area": "^1.2.0",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
     "@tanstack/react-table": "^8.20.5",
     "axios": "^1.7.5",
+    "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "input-otp": "^1.2.5",
     "js-yaml": "^4.1.0",
     "lucide-react": "^0.436.0",
     "next": "14.2.7",
     "next-auth": "^4.24.7",
     "next-themes": "^0.3.0",
+    "nodemailer": "^6.9.16",
+    "otp-generator": "^4.0.1",
     "prisma": "^5.19.0",
     "react": "^18",
     "react-dom": "^18",
@@ -45,12 +55,14 @@
     "swagger-parser": "^10.0.3",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "ts-node": "^10.9.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.5.0",
+    "@types/nodemailer": "^6.4.16",
+    "@types/otp-generator": "^4.0.2",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "dotenv": "^16.4.5",
@@ -58,6 +70,7 @@
     "eslint-config-next": "14.2.7",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   }
 }

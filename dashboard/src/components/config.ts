@@ -9,7 +9,7 @@ export const sideBarConfig = {
     {
       title: "All API",
       header: "List Of all Api",
-      link: "/all",
+      link: "/dashboard",
       subTitle: []
     },
     {

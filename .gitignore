@@ -6,3 +6,4 @@ docker-compose2.yaml
 
 postgres-data
 nginx.conf
+.vscode

@@ -1,5 +1,4 @@
 services:
-
   tester:
     container_name: api-tester
     restart: unless-stopped
@@ -81,3 +80,23 @@ services:
         condition: service_started
       zap:
         condition: service_started
+  
+  db:
+    container_name: db_secure
+    image: postgres
+    environment:
+      POSTGRES_USER: secura
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-secura:/var/lib/postgresql/data
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}' ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-secura:
