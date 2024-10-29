@@ -9,7 +9,7 @@ export function SideBar() {
           <Link
             key={index}
             href={item.link}
-            className={`w-full py-2 px-4 rounded bg-purple-500 hover:bg-purple-700 text-white`}
+            className={`w-full py-2 px-4 border-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-200 dark:text-black`}
           >
             {item.title}
           </Link>

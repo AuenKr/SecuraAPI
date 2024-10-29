@@ -107,7 +107,7 @@ export default function Uploader() {
               <div>
                 <Label
                   htmlFor="file-upload"
-                  className="block text-sm font-medium"
+                  className="block text-sm font-medium text-center"
                 >
                   OpenAPI Specification (YAML)
                 </Label>
@@ -125,7 +125,7 @@ export default function Uploader() {
                         id="file-upload"
                         name="file-upload"
                         type="file"
-                        className="sr-only"
+                        className="hidden"
                         onChange={handleFileChange}
                         accept=".yaml,.yml"
                       />

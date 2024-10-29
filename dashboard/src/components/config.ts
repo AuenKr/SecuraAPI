@@ -13,7 +13,7 @@ export const sideBarConfig = {
       subTitle: []
     },
     {
-      title: "Add API",
+      title: "Test New API",
       header: "Add New Api",
       link: "/upload",
       subTitle: []
