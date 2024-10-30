@@ -1,4 +1,4 @@
-import express, { type Errback, type ErrorRequestHandler, type NextFunction, type Request, type Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import testRoute from './routes/test';
 import resultRoute from './routes/result';
@@ -20,15 +20,6 @@ app.get('/health', (req, res) => {
 
 app.use('/test', testRoute);
 app.use('/result', resultRoute);
-
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({
-    error: {
-      message: 'Internal Server Error'
-    }
-  });
-});
 
 app.listen(PORT, () => {
   console.log("App started listening at port : ", PORT)

@@ -1,0 +1,8 @@
+.env
+node_modules
+npm-debug.log
+yarn.lock
+bun.lockb
+
+docker-compose.yaml
+Dockerfile.Orchestrator

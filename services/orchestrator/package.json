@@ -1,13 +1,11 @@
 {
   "name": "orchestrator",
   "module": "index.ts",
-  "type": "module",
   "scripts": {
-    "preinstall": "npx only-allow bun",
-    "postinstall": "prisma generate",
-    "start": "bun src/index.ts",
+    "postinstall": "prisma generate client",
+    "build": "esbuild src/index.ts --bundle --minify --outfile=dist/index.js --platform=node",
+    "start": "bun run build && bun dist/index.js",
     "dev": "bun --hot src/index.ts",
-    "db:start": "npm run db:deploy && npm run db:client",
     "db:deploy": "prisma migrate deploy",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
@@ -18,17 +16,17 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.8.4",
-    "bun": "^1.1.33",
-    "prisma": "^5.21.1",
-    "ts-node": "^10.9.2"
+    "prisma": "^5.21.1"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.6.3"
   },
   "dependencies": {
     "@prisma/client": "^5.21.1",
     "cors": "^2.8.5",
+    "esbuild": "^0.24.0",
     "express": "^4.21.1",
+    "nodemon": "^3.1.7",
     "zod": "^3.23.8"
   }
 }
