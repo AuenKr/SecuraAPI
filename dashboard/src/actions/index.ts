@@ -30,7 +30,6 @@ export async function getOpenApiPaths(id = "") {
       id
     }
 
-  console.log("ID : ", id)
   const result = await prisma.apiPath.findMany({
     where: {
       OpenApiFile: searchQuery

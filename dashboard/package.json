@@ -18,7 +18,7 @@
     "db:client": "prisma generate client",
     "docker:dev": "npm run db:start && next dev",
     "docker:build": "npm run db:start && next build",
-    "docker:start": "npm run db:start && next start",
+    "docker:start": "npm run docker:build && next start",
     "seed": "npx prisma run db seed"
   },
   "dependencies": {

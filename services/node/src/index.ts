@@ -76,6 +76,6 @@ function scheduleNextJob(delayInSeconds: number) {
   });
 }
 
-console.log("Start in 30 sec")
+console.log("Start in 120 sec")
 scheduleNextJob(120); // waiting for zap to start for initial if using docker (about 2 min to start zap)
 

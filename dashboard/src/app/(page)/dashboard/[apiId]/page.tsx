@@ -19,7 +19,17 @@ export default async function Component({
     },
   });
   if (!testResults.length) {
-    return <div>Not Found</div>;
+    return (
+      <div className="flex flex-col justify-center items-center min-h-[70vh] w-full gap-3">
+        <span className="text-lg">Every thing is ok here</span>
+        <Link
+          href={"/dashboard"}
+          className="bg-slate-800 hover:bg-slate-700 text-white dark:bg-white dark:hover:bg-slate-200 dark:text-black border-2 px-3 py-2 rounded-xl"
+        >
+          Go back
+        </Link>
+      </div>
+    );
   }
 
   return (

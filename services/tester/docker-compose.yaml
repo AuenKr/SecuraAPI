@@ -1,7 +1,9 @@
 services:
   tester-api:
     container_name: api-tester
-    build: 
+    build:
+      context: ./
+      dockerfile: Dockerfile.tester
     environment:
       DEBUG: "true"
       ZAP_BASE_URL: "http://zap:8080"

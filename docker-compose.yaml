@@ -1,31 +1,49 @@
 services:
-  tester:
-    container_name: api-tester
+  dashboard:
+    container_name: api-dashboard
     restart: unless-stopped
     build:
-      context: ./services/tester
-      dockerfile: Dockerfile.tester
-    volumes:
-      - ./services/tester:/tester
-      - /tester/node_modules
+      context: ./dashboard
+      dockerfile: Dockerfile.dashboard
     ports:
-      - "6965:3000"
+      - 6960:3000
+      - 3000:3000
     environment:
-      - DEBUG=true
-      - ZAP_BASE_URL=http://zap:8080
-      - ZAP_DEPTH_SCAN=true
+      - DATABASE_URL:postgres://secura:password@db:5432/db
     env_file:
-      - path: ./services/tester/.env
-        required: false
+      - path: ./dashboard/.env
+        required: true
+
+  orchestrator:
+    build:
+      context: ./services/orchestrator
+      dockerfile: Dockerfile.Orchestrator
+    container_name: test-orchestrator
+    environment:
+      - DATABASE_URL=postgres://secura:password@db:5432/db
+      - PORT=3005
+    ports:
+      - 3005:3005
+
+  tester:
+    container_name: api-tester
+    restart: always
+    build:
+      context: ./services/node
+      dockerfile: Dockerfile.tester
+    environment:
+      - ZAP_API_URL=http://zap:8080
+      - ZAP_API_KEY=JzUAuZDvoL3MNR/8yBDydTzK6ZACq9ONe8WfIY92J00= # random api key
+      - ORCHESTRATOR_URL=http://orchestrator:3005
+      - WAIT_TIME=3000
     depends_on:
-      zap:
-        condition: service_started
+      - zap
 
   zap:
     image: zaproxy/zap-stable
     user: zap
     ports:
-      - "8080:8080"
+      - 8080:8080
     command:
       [
         "zap.sh",
@@ -43,44 +61,6 @@ services:
       ]
     restart: unless-stopped
 
-  dashboard:
-    container_name: api-dashboard
-    restart: unless-stopped
-    build:
-      context: ./dashboard
-      dockerfile: Dockerfile.dashboard
-    volumes:
-      - ./dashboard:/dashboard
-      - /dashboard/node_modules
-    ports:
-      - "6960:3000"
-    environment:
-      - DATABASE_URL:postgres://postgres:password@localhost:5432/postgres
-    env_file:
-      - path: ./dashboard/.env
-        required: true
-
-  orchestrator:
-    build:
-      context: ./services/test-orchestrator
-      dockerfile: Dockerfile.Orchestrator
-    container_name: test-orchestrator
-    volumes:
-      - ./services/test-orchestrator:/orchestrator
-      - /orchestrator/node_modules
-    environment:
-      - DATABASE_URL=postgres://postgres:password@localhost:5432/postgres
-      - TESTER_URL=http://tester:5000
-      - TIME=1 # 1 min
-    env_file:
-      - path: ./services/test-orchestrator/.env
-        required: false
-    depends_on:
-      tester:
-        condition: service_started
-      zap:
-        condition: service_started
-  
   db:
     container_name: db_secure
     image: postgres
@@ -89,11 +69,11 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - postgres-secura:/var/lib/postgresql/data
     healthcheck:
-      test: [ 'CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}' ]
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
