@@ -81,18 +81,6 @@ export async function PUT(req: NextRequest) {
       }
     })
 
-    console.log("trigger /api/parser")
-    // Trigger the parsing endpoint while uploading
-    fetch("/api/parser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        id: result.id
-      })
-    })
-
     return NextResponse.json({
       msg: "File upload success"
     })

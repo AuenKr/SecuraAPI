@@ -70,6 +70,7 @@ export default function Uploader() {
             variant: "destructive",
           });
         }
+        setFile(null);
         return toast({
           title: "Success",
           description:
