@@ -19,10 +19,11 @@
     "db:client": "prisma generate client",
     "docker:dev": "pnpm run db:start && next dev",
     "docker:build": "pnpm run db:start && next build",
-    "docker:start": "pnpm run docker:build && next start",
+    "docker:start": "pnpm run db:start && next start",
     "seed": "pnpm dlx prisma run db seed"
   },
   "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
     "@aws-sdk/client-s3": "^3.637.0",
     "@aws-sdk/s3-request-presigner": "^3.637.0",
     "@hookform/resolvers": "^3.9.0",
@@ -55,7 +56,6 @@
     "react-dom": "^18",
     "react-dropzone-uploader": "^2.11.0",
     "react-hook-form": "^7.53.0",
-    "swagger-parser": "^10.0.3",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
