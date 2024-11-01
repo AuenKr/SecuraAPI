@@ -10,7 +10,7 @@ export function ReportBtn({
   children: React.ReactNode;
 }) {
   return (
-    <Link href={link} className="bg-green-600 p-2 rounded hover:bg-green-700 ">
+    <Link href={link} className="bg-green-600 rounded-lg hover:bg-green-700 flex">
       {children}
     </Link>
   );

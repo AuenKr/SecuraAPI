@@ -17,9 +17,7 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:client": "prisma generate client",
-    "docker:dev": "pnpm run db:start && next dev",
-    "docker:build": "pnpm run db:start && next build",
-    "docker:start": "pnpm run db:start && next start",
+    "docker:start": "pnpm run build && pnpm run start",
     "seed": "pnpm dlx prisma run db seed"
   },
   "dependencies": {

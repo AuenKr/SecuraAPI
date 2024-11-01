@@ -8,7 +8,6 @@ export default async function Component() {
   if (session?.user) redirect("/openapi");
   return (
     <div className="flex flex-col justify-between min-h-[100vh]">
-      <Navbar />
       <Landing />
     </div>
   );

@@ -38,7 +38,9 @@ export function OpenApiFileTable({ result }: { result: OpenApiFile[] }) {
             <TableCell>
               {row.progress === Progress.FINISH ? (
                 <ReportBtn id={row.id} link={`openapi/${row.id}`}>
-                  <span>See Report</span>
+                  <span className="text-wrap p-1 text-center font-semibold text-slate-50">
+                    See Reports
+                  </span>
                 </ReportBtn>
               ) : (
                 <span>--</span>

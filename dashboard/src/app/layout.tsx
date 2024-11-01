@@ -29,12 +29,18 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
-          <div className="min-h-screen flex flex-col justify-between">
-            <Navbar />
-            <>{children}</>
-            <Toaster />
-            <Footer />
+          <div className="grid grid-cols-1 w-full">
+            <div className="col-span-1">
+              <Navbar />
+            </div>
+            <div className="col-span-1">
+              <>{children}</>
+            </div>
+            <div className="col-span-1">
+              <Footer />
+            </div>
           </div>
+          <Toaster />
         </Providers>
       </body>
     </html>

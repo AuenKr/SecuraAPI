@@ -21,7 +21,7 @@ export default async function OpenApiFiles() {
         </div>
       </div>
       <div className="col-span-5 flex justify-center">
-        <ScrollArea className="w-full max-w-[360px] sm:max-w-[88%] md:max-w-[80%] justify-self-stretch">
+        <ScrollArea className="w-full max-w-[360px] sm:max-w-[88%] md:max-w-[80%] justify-self-stretch ">
           <OpenApiPathTable />
         </ScrollArea>
       </div>
