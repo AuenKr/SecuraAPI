@@ -10,3 +10,4 @@ nginx.conf
 .vscode
 
 docker-compose-prod.yaml
+docker-compose-dev.yaml

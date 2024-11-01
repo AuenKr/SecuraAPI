@@ -5,8 +5,6 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import "./global.css";
 import { Toaster } from "@/components/ui/toaster";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

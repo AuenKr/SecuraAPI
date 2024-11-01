@@ -18,39 +18,26 @@ export async function OpenApiPathTable({ fileId }: { fileId?: string }) {
     "method",
     "summary",
     "description",
-    "request Body",
-    "parameters",
-    "security Body",
-    "response Body",
   ];
 
   const result = await getOpenApiPaths(fileId);
-  if (!result) return;
+  if(!result)
+      return <div className="mx-auto my-auto">Not Found</div>
   return (
-    <div>
-      <Table className="min-w-full divide-y">
+      <Table>
         <TableHeader>
           <TableRow>
             {tableHead.map((each, index) => (
-              <TableHead
-                key={index}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                {each}
-              </TableHead>
+              <TableHead key={index}>{each}</TableHead>
             ))}
           </TableRow>
         </TableHeader>
-        <TableBody className="divide-y">
+        <TableBody>
           {result.map((row) => (
             <TableRow key={row.id}>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium dark:text-white truncate max-w-xs overflow-hidden">
-                {row.OpenApiFile?.name}
-              </TableCell>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
-                {row.path}
-              </TableCell>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
+              <TableCell>{row.OpenApiFile?.name}</TableCell>
+              <TableCell>{row.path}</TableCell>
+              <TableCell>
                 {row.status === Progress.FINISH ? (
                   <ReportBtn id={row.id} link={`/dashboard/${row.id}`}>
                     {row.status}
@@ -59,31 +46,12 @@ export async function OpenApiPathTable({ fileId }: { fileId?: string }) {
                   <span>{row.status}</span>
                 )}
               </TableCell>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
-                {row.method}
-              </TableCell>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
-                {row.summary}
-              </TableCell>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
-                {row.description}
-              </TableCell>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
-                {JSON.stringify(row.requestBody)}
-              </TableCell>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
-                {JSON.stringify(row.parameters)}
-              </TableCell>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
-                {JSON.stringify(row.securityBody)}
-              </TableCell>
-              <TableCell className="px-6 py-4 whitespace-nowrap text-sm dark:text-white truncate max-w-xs overflow-hidden">
-                {JSON.stringify(row.responseBody)}
-              </TableCell>
+              <TableCell>{row.method}</TableCell>
+              <TableCell>{row.summary}</TableCell>
+              <TableCell>{row.description || "Null"}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </div>
   );
 }

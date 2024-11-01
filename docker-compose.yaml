@@ -68,7 +68,7 @@ services:
       context: ./services/cronJob
       dockerfile: Dockerfile.CronJob
     environment:
-      - ORCHESTRATOR_URL="http://localhost:3005"
+      - ORCHESTRATOR_URL=http://orchestrator:3005
 
   db:
     container_name: db_secure

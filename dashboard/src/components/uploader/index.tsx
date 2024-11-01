@@ -113,15 +113,15 @@ export default function Uploader() {
                   OpenAPI Specification (YAML)
                 </Label>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md">
-                  <div className="space-y-1 text-center">
+                  <div className="flex flex-col justify-center items-center">
                     <div className="flex text-sm">
-                      <label
+                      <Label
                         htmlFor="file-upload"
                         className="relative cursor-pointer rounded-md font-medium text-primary hover:text-primary/90 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary"
                       >
                         <span>Upload a file</span>
                         <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
-                      </label>
+                      </Label>
                       <Input
                         id="file-upload"
                         name="file-upload"

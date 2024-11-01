@@ -1,8 +1,6 @@
-FROM node:slim
+FROM node:20-alpine
 
-RUN apt-get update -y && apt-get install -y openssl
-
-RUN npm install -g bun
+RUN npm install -g pnpm
 
 # Set the working directory
 WORKDIR /app
@@ -12,14 +10,14 @@ COPY package*.json ./
 COPY prisma ./prisma
 
 # Install dependencies
-RUN bun install
-RUN bun run db:client
+RUN pnpm install
+RUN pnpm run db:client
 
 # Copy the rest of the application code
 COPY . .
 
 # Build the Next.js app
-RUN bun run build
+RUN pnpm run build
 
 RUN mkdir -p ./src/openapiSpec/openApi
 
@@ -27,4 +25,4 @@ RUN mkdir -p ./src/openapiSpec/openApi
 EXPOSE 3000
 
 # Start the Next.js app
-CMD ["bun", "run", "docker:start", "--port 3000"]
+CMD ["pnpm", "run", "docker:start", "--port 3000"]

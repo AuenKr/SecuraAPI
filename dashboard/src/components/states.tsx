@@ -28,7 +28,6 @@ export async function ApiProgressState({ result }: { result: OpenApiFile[] }) {
     {
       name: "Completed",
       value: result.filter((each) => {
-        
         return each.progress === "FINISH";
       }).length,
     },
@@ -40,13 +39,13 @@ export async function ApiProgressState({ result }: { result: OpenApiFile[] }) {
     },
   ];
   return (
-    <div className="w-full flex justify-between m-3">
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 justify-self-center gap-2">
       {config.map((each) => {
         return (
-          <Card key={each.name}>
-            <CardContent className="text-center p-3 dark:hover:bg-slate-700 hover:bg-slate-400 hover:rounded">
-              <h2 className="text-lg font-semibold">{each.name}</h2>
-              <p className="text-3xl font-bold">{each.value}</p>
+          <Card key={each.name} className="col-span-1">
+            <CardContent className="p-3 flex flex-col justify-between items-center h-full text-center text-sm lg:text-base gap-1">
+              <h2>{each.name}</h2>
+              <p className="font-bold">{each.value}</p>
             </CardContent>
           </Card>
         );

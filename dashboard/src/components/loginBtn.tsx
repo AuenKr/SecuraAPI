@@ -7,13 +7,17 @@ export default function LoginBtn() {
   if (session?.user) {
     return (
       <>
-        <Button onClick={() => signOut()}>Sign out</Button>
+        <Button onClick={() => signOut()} size="sm">
+          Sign out
+        </Button>
       </>
     );
   }
   return (
     <>
-      <Button onClick={() => signIn()}>Sign in</Button>
+      <Button onClick={() => signIn()} size="sm">
+        Sign in
+      </Button>
     </>
   );
 }

@@ -6,20 +6,21 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "postinstall": "prisma generate",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:start": "npm run db:deploy && npm run db:client",
+    "db:start": "pnpm run db:deploy && pnpm run db:client",
     "db:deploy": "prisma migrate deploy",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:client": "prisma generate client",
-    "docker:dev": "npm run db:start && next dev",
-    "docker:build": "npm run db:start && next build",
-    "docker:start": "npm run docker:build && next start",
-    "seed": "npx prisma run db seed"
+    "docker:dev": "pnpm run db:start && next dev",
+    "docker:build": "pnpm run db:start && next build",
+    "docker:start": "pnpm run docker:build && next start",
+    "seed": "pnpm dlx prisma run db seed"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
@@ -35,6 +36,7 @@
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
+    "@radix-ui/react-tooltip": "^1.1.3",
     "@tanstack/react-table": "^8.20.5",
     "axios": "^1.7.5",
     "bcrypt": "^5.1.1",
@@ -42,7 +44,7 @@
     "clsx": "^2.1.1",
     "input-otp": "^1.2.5",
     "js-yaml": "^4.1.0",
-    "lucide-react": "^0.436.0",
+    "lucide-react": "^0.454.0",
     "next": "14.2.7",
     "next-auth": "^4.24.7",
     "next-themes": "^0.3.0",
