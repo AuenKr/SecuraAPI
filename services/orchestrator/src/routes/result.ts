@@ -7,9 +7,9 @@ const route = express.Router();
 
 route.get('/', (req, res) => {
   res.json({
-    msg: "Hello from /result route"
+    msg: `Hello from ${req.baseUrl} route`,
   })
-})
+});
 
 route.post('/', async (req, res) => {
   try {
@@ -77,6 +77,6 @@ route.post('/', async (req, res) => {
       msg: "Internal server error"
     })
   }
-})
+});
 
-export default route
+export default route;

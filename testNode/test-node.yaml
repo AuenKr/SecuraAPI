@@ -6,9 +6,9 @@ services:
       context: ./
       dockerfile: Dockerfile.tester
     environment:
+      - ORCHESTRATOR_URL="http://orchestrator.secura.auenkr.me"
       - ZAP_API_URL="http://zap:8080"
       - ZAP_API_KEY="JzUAuZDvoL3MNR/8yBDydTzK6ZACq9ONe8WfIY92J00=" # random api key
-      - ORCHESTRATOR_URL="http://localhost:3005"
       - WAIT_TIME=3000
     depends_on:
       - zap

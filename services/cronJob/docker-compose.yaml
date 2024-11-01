@@ -1,0 +1,8 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.CronJob
+    container_name: cron-jobs
+    environment:
+      - ORCHESTRATOR_URL="http://localhost:3005"

@@ -1,12 +1,11 @@
 services:
   dashboard:
     container_name: api-dashboard
-    restart: unless-stopped
+    restart: always
     build:
       context: ./dashboard
       dockerfile: Dockerfile.dashboard
     ports:
-      - 6960:3000
       - 3000:3000
     environment:
       - DATABASE_URL:postgres://secura:password@db:5432/db
@@ -15,10 +14,11 @@ services:
         required: true
 
   orchestrator:
+    container_name: test-orchestrator
+    restart: always
     build:
       context: ./services/orchestrator
       dockerfile: Dockerfile.Orchestrator
-    container_name: test-orchestrator
     environment:
       - DATABASE_URL=postgres://secura:password@db:5432/db
       - PORT=3005
@@ -40,6 +40,7 @@ services:
       - zap
 
   zap:
+    restart: always
     image: zaproxy/zap-stable
     user: zap
     ports:
@@ -59,10 +60,19 @@ services:
         "-config",
         "api.addrs.addr.regex=true",
       ]
-    restart: unless-stopped
+
+  cron-job:
+    container_name: cron-jobs
+    restart: always
+    build:
+      context: ./services/cronJob
+      dockerfile: Dockerfile.CronJob
+    environment:
+      - ORCHESTRATOR_URL="http://localhost:3005"
 
   db:
     container_name: db_secure
+    restart: always
     image: postgres
     environment:
       POSTGRES_USER: secura

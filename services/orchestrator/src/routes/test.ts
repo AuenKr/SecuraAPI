@@ -7,7 +7,7 @@ const route = express.Router();
 
 route.get('/', (req, res) => {
   res.json({
-    msg: "Hello from /test route"
+    msg: `Hello from ${req.baseUrl} route`,
   })
 })
 
@@ -74,4 +74,4 @@ route.post('/', async (req, res) => {
   }
 })
 
-export default route
+export default route;

@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import testRoute from './routes/test';
 import resultRoute from './routes/result';
+import workerRoute from './routes/worker';
 import { logger } from './middlewares';
 
 const app = express();
@@ -20,6 +21,7 @@ app.get('/health', (req, res) => {
 
 app.use('/test', testRoute);
 app.use('/result', resultRoute);
+app.use('/worker', workerRoute);
 
 app.listen(PORT, () => {
   console.log("App started listening at port : ", PORT)

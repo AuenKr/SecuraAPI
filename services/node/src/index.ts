@@ -1,6 +1,9 @@
 import axios from "axios"
 import { zapApiTest } from "./utils";
 import schedule from 'node-schedule';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const ORCHESTRATOR_URL = process.env.ORCHESTRATOR_URL || "http://localhost:3005"
 

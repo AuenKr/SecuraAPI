@@ -8,10 +8,6 @@ SecuraAPI uses advanced Testing Tools to automatically test OWASP-compliant for 
 - **Test Report Generation**: Run tests automatically and get detailed reports on vulnerabilities.
 - **OWASP Compliance**: Ensure your APIs are protected against common OWASP vulnerabilities.
 
-## App Preview
-
-./assets/Final%20Video%20SecuraAPI.mp4
-
 ## Local Setup
 
 1. **Install Docker**:
@@ -38,13 +34,20 @@ SecuraAPI uses advanced Testing Tools to automatically test OWASP-compliant for 
 3. **Automated Testing**: Each endpoint is tested on tools like ZAP automatically.
 4. **Automated Test Report**: After each endpoint is tested, the report can be seen from the dashboard.
 
-## How Testing Working Now
-
-<img src="https://github.com/user-attachments/assets/90ebde7a-1c15-4b34-a481-612cb0543b52" width="500" height="auto">
-
-## Future work
+## How Testing network work
 
 1. Change the testing architecture to a distributed testing system.
    ![image](https://github.com/user-attachments/assets/abc66416-1b9b-432c-aad7-0c37561e2d4c)
 2. Testing Nodes can join the network and test the endpoint.
    This will significantly improve the testing speed.
+
+### Note 
+> If u want to join the testing network 
+
+#### Prerequisite : You need to install docker
+
+1. Copy test-node.yaml file, rename to docker-compose.yaml
+
+2. `docker compose up -d` or `docker-compose up -d`
+
+This will start the testing node in background and improve the testing speed.
