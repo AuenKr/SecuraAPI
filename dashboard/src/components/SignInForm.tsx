@@ -31,7 +31,7 @@ export default function SignInForm() {
 
     try {
       const result = await signIn("credentials", {
-        callbackUrl: "/dashboard",
+        callbackUrl: "/openapi",
         email,
         password,
       });
@@ -48,13 +48,13 @@ export default function SignInForm() {
 
   const handleGoogleSignIn = () => {
     setIsLoading(true);
-    signIn("google", { callbackUrl: "/dashboard" });
+    signIn("google", { callbackUrl: "/openapi" });
   };
 
   const handleGuestSignIn = async () => {
     setIsLoading(true);
     const result = await signIn("credentials", {
-      callbackUrl: "/dashboard",
+      callbackUrl: "/openapi",
       email: "guest@user.com",
       password: "123456789",
     });
@@ -114,7 +114,7 @@ export default function SignInForm() {
         </div>
         <div className="space-y-3">
           <Button
-            variant="outline"
+            variant="destructive"
             className="w-full"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
@@ -137,9 +137,10 @@ export default function SignInForm() {
             Sign in with Google
           </Button>
           <Button
-            variant="outline"
-            className="w-full"
+          variant="outline"
+            className="w-full border-2"
             onClick={handleGuestSignIn}
+            disabled={isLoading}
           >
             Guest Login
           </Button>

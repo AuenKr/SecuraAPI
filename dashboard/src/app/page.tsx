@@ -1,5 +1,4 @@
 import { Landing } from "@/components/landing/landing";
-import { Navbar } from "@/components/navbar";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 

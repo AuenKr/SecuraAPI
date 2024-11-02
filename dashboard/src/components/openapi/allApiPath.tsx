@@ -38,7 +38,7 @@ export async function OpenApiPathTable({ fileId }: { fileId?: string }) {
             <TableCell>
               {row.status === Progress.FINISH ? (
                 <ReportBtn id={row.id} link={`/dashboard/${row.id}`}>
-                  <span className="p-1 text-slate-50 font-semibold">{row.status}</span>
+                  <span className="text-wrap p-2 w-full text-center font-semibold text-slate-50">{row.status}</span>
                 </ReportBtn>
               ) : (
                 <span>{row.status}</span>

@@ -11,11 +11,11 @@ export default async function PageLayout({
   const session = await getServerSession();
   if (!session?.user) redirect("/");
   return (
-    <div className="flex h-screen w-screen">
+    <div className="flex h-full min-h-screen w-full">
       <div>
         <SideBar />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 flex-grow">
         {children}
       </div>
     </div>

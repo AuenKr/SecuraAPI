@@ -40,9 +40,8 @@ export default function TestResultPage({ data }: { data: TestResult }) {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Test Result</h1>
-
+    <div className="container p-4 max-w-xl lg:max-w-4xl">
+      <h1 className="text-2xl font-bold mb-6 text-center">Test Result</h1>
       <Card className="mb-6">
         <CardHeader>
           <CardTitle>{name || "Unnamed Test"}</CardTitle>
