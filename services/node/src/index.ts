@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const ORCHESTRATOR_URL = process.env.ORCHESTRATOR_URL || "http://localhost:3005"
+const SLEEP_TIME = process.env.SLEEP_TIME || "3600"; // 60 min
 
 // Execute the api testing logic
 async function mainTask() {
@@ -15,6 +16,11 @@ async function mainTask() {
     // Getting the api details to test from orchestrator
     response = await axios.post(`${ORCHESTRATOR_URL}/test`)
     result = response.data
+
+    if (response.status === 204) {
+      console.log("No pending test");
+      return false;
+    }
 
     if (!result.data.url) {
       console.log("Going to sleep for 60 min")
@@ -61,11 +67,11 @@ function scheduleNextJob(delayInSeconds: number) {
   const job = schedule.scheduleJob(new Date(Date.now() + delayInSeconds * 1000), async () => {
 
     const result = await mainTask();
-    console.log("main result : ", result);
 
-    let nextDelay;
+    let nextDelay: number;
     if (!result) {
-      nextDelay = 60 * 60;
+      console.log("Going to sleep for 60 min");
+      nextDelay = parseInt(SLEEP_TIME);
     }
     else {
       nextDelay = 1;

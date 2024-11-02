@@ -31,13 +31,23 @@ route.post('/', async (req, res) => {
     })
 
     if (!testAPI) {
-      res.json({
+      res.status(204).json({
         msg: "Go to sleep, no task pending"
       })
+      return;
     }
 
+    await prisma.apiPath.update({
+      where: {
+        id: testAPI.id
+      },
+      data: {
+        status: Progress.WAITING
+      }
+    });
+
     // @ts-ignore
-    const baseUrl: string | null = testAPI?.OpenApiFile?.servers[0][0].url
+    const baseUrl: string | null = testAPI?.OpenApiFile?.servers[0][0]?.url
     if (!testAPI) {
       res.status(401).json({
         msg: "No pending Test"
@@ -47,7 +57,7 @@ route.post('/', async (req, res) => {
     if (!baseUrl) {
       await prisma.apiPath.update({
         where: {
-          id: testAPI?.id
+          id: testAPI.id
         },
         data: {
           status: Progress.FINISH

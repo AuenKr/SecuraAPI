@@ -92,5 +92,6 @@ enum Progress {
   START
   PARSING
   TESTING
+  WAITING
   FINISH
 }

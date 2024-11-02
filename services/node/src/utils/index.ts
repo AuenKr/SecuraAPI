@@ -6,8 +6,8 @@ dotenv.config();
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const ZAP_API_KEY = `${process.env.ZAP_API_KEY || "RoRaxA6c1e8x+U1NvdPLMlmboJqnEYGfr1/VlnrNvW8="}`;
-const ZAP_API_URL = `${process.env.ZAP_API_URL || "http://localhost:8081"}`;
-const waitTime = parseInt(process.env.WAIT_TIME || "") || 2000;
+const ZAP_API_URL = `${process.env.ZAP_API_URL || "http://localhost:8080"}`;
+const waitTime = 2000;
 
 export async function zapApiTest(testUrl: string) {
     const zap = new ZapProxy(ZAP_API_KEY, ZAP_API_URL, "JSON");
