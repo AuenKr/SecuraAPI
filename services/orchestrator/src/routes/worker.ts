@@ -39,9 +39,10 @@ route.post('/file-status', async (req, res) => {
         completedScan.push(apiFile.id);
     })
 
-    // Updating the status
+    // Updating the status using batching
+    const fileBatch: any[] = [];
     completedScan.forEach(async (id) => {
-      await prisma.openApiFile.update({
+      let x = prisma.openApiFile.update({
         where: {
           id: id
         },
@@ -49,7 +50,10 @@ route.post('/file-status', async (req, res) => {
           progress: Progress.FINISH
         }
       });
+      fileBatch.push(x);
     });
+
+    await Promise.all(fileBatch);
 
     res.json({
       msg: "File status",
@@ -63,7 +67,75 @@ route.post('/file-status', async (req, res) => {
     });
   }
 
-})  
+})
 
+// reset the waiting status where test not complete within 10 mins after picking
+route.post('/test-reset', async (req, res) => {
+  try {
+    const tests = await prisma.apiPath.findMany({
+      where: {
+        status: Progress.WAITING
+      }
+    });
+
+    // Filtering test which status not not update within 10 mins
+    const resetTests = tests.filter((test) => {
+      const currentTime = new Date();
+      const diff = currentTime.getTime() - test.updatedAt.getTime();
+      return diff > 10 * 60 * 1000; // 60 min
+    });
+
+    if (resetTests.length === 0) {
+      res.status(204).json({
+        msg: "No test to reset"
+      });
+      return;
+    }
+
+    // reset of the test status using batching
+    const apiBatch: any[] = []
+    resetTests.forEach(async (test) => {
+      let x = prisma.apiPath.update({
+        where: {
+          id: test.id
+        },
+        data: {
+          status: Progress.TESTING
+        }
+      });
+      apiBatch.push(x);
+    });
+    await Promise.all(apiBatch);
+
+    res.json({
+      msg: "Test reset",
+      result: resetTests.map((test) => test.id)
+    })
+    return;
+  } catch (error) {
+    console.log("error occur ", error);
+    res.status(500).json({
+      msg: "Internal server error",
+      error
+    });
+  }
+})
+
+// Delete old OTP from database - cronJob
+route.post('/reset-otp', async (req, res) => {
+  const currentTime = new Date();
+  const result = await prisma.oTPVerify.deleteMany({
+    where: {
+      createdAt: {
+        lt: new Date(currentTime.getTime() - 10 * 60 * 1000)
+      }
+    }
+  });
+
+  res.json({
+    msg: "OTP reset",
+    result
+  });
+});
 
 export default route;

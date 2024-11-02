@@ -33,8 +33,8 @@ model OpenApiFile {
   description    String?
   servers        Json[]
 
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
   apiPath   ApiPath[]
 }
 
@@ -52,8 +52,8 @@ model ApiPath {
   OpenApiFile   OpenApiFile? @relation(fields: [openApiFileId], references: [id])
   openApiFileId String?
 
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   status     String       @default("TESTING")
   testResult TestResult[]
